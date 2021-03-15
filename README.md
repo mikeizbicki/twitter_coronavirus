@@ -3,10 +3,11 @@
 You will scan all geotagged tweets sent in 2020 to monitor for the spread of the coronavirus on social media.
 
 **Due date:** 
-Sunday, 11 April
+Sunday, 11 April.
 
 This homework will require LOTs of computation time.
-I recommend that you have your code working by 14 Mar to ensure that you will have enough time to execute the code.
+I recommend that you have your code working by **14 Mar** to ensure that you will have enough time to execute the code.
+No extensions will be granted for any reason.
 
 You will continue to have assignments during the next few weeks,
 and so if you delay working on this homework,
@@ -21,10 +22,14 @@ you will have some very heavy work loads ahead of you.
 ## Background
 
 Approximately 500 million tweets are sent everyday.
-Of those tweets, about 2% are *geotagged*.
+Of those tweets, about 1% are *geotagged*.
 That is, the user's device includes location information about where the tweets were sent from.
 The lambda server's `/data-fast/twitter\ 2020` folder contains all geotagged tweets that were sent in 2020.
 In total, there are about 1.1 billion tweets in this dataset.
+We can calculate the amount of disk space used by the dataset with the `du` command as follows:
+```
+$ du -h /data-fast/twitter\ 2020
+```
 
 The tweets are stored as follows.
 The tweets for each day are stored in a zip file `geoTwitterYY-MM-DD.zip`,
@@ -38,8 +43,10 @@ For example, run the command
 ```
 $ vim /data-fast/twitter\ 2020/geoTwitter20-01-01.zip
 ```
-Notice that since the path above is an absolute path,
-you can run that command from anywhere on the lambda server.
+Or you can get a "pretty printed" interface with a command like
+```
+$ unzip -p /data-fast/twitter\ 2020/geoTwitter-20-01-01.zip | head -n1 | python3 -m json.tool | vim -
+```
 
 You will follow the [MapReduce](https://en.wikipedia.org/wiki/MapReduce) procedure to analyze these tweets.
 MapReduce is a famous procedure for large scale parallel processing that is widely used in industry.
