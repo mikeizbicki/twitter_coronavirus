@@ -57,6 +57,25 @@ It is a 3 step procedure summarized in the following image:
 I have already done the partition step for you (by splitting up the tweets into one file per day).
 You will have to do the map and reduce steps.
 
+**Runtime:**
+
+The simplest and most common scenario is that the map procedure takes time O(n) and the reduce procedure takes time O(1).
+If you have p<n processors, then the overall runtime will be O(n/p).
+This means that:
+1. doubling the amount of data will cause the analysis to take twice as long;
+1. doubling the number of processors will cause the analysis to take half as long;
+1. if you want to add more data and keep the processing time the same, then you need to add a proportional number of processors.
+
+More complex runtimes are possible.
+Merge sort over MapReduce is the classic example. 
+Here, mapping is equivalent to sorting and so takes time O(n log n),
+and reducing is a call to the `_reduce` function that takes time O(n).
+But they are both rare in practice and require careful math to describe,
+so we will ignore them.
+In the merge sort example, it requires p=n processors just to reduce the runtime down to O(n)...
+that's a lot of additional computing power for very little gain,
+and so is impractical.
+
 ## Background Tasks
 
 Complete the following tasks to familiarize yourself with the sample code:
