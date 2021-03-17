@@ -45,7 +45,7 @@ $ vim /data-fast/twitter\ 2020/geoTwitter20-01-01.zip
 ```
 Or you can get a "pretty printed" interface with a command like
 ```
-$ unzip -p /data-fast/twitter\ 2020/geoTwitter-20-01-01.zip | head -n1 | python3 -m json.tool | vim -
+$ unzip -p /data-fast/twitter\ 2020/geoTwitter20-01-01.zip | head -n1 | python3 -m json.tool | vim -
 ```
 
 You will follow the [MapReduce](https://en.wikipedia.org/wiki/MapReduce) procedure to analyze these tweets.
