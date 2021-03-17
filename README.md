@@ -60,7 +60,7 @@ You will have to do the map and reduce steps.
 **Runtime:**
 
 The simplest and most common scenario is that the map procedure takes time O(n) and the reduce procedure takes time O(1).
-If you have p<n processors, then the overall runtime will be O(n/p).
+If you have p<<n processors, then the overall runtime will be O(n/p).
 This means that:
 1. doubling the amount of data will cause the analysis to take twice as long;
 1. doubling the number of processors will cause the analysis to take half as long;
