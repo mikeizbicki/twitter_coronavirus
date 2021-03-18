@@ -6,7 +6,7 @@ You will scan all geotagged tweets sent in 2020 to monitor for the spread of the
 Sunday, 11 April.
 
 This homework will require LOTs of computation time.
-I recommend that you have your code working by **14 Mar** to ensure that you will have enough time to execute the code.
+I recommend that you have your code working by **21 Mar** to ensure that you will have enough time to execute the code.
 No extensions will be granted for any reason.
 
 You will continue to have assignments during the next few weeks,
