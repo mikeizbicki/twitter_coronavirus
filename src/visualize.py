@@ -32,6 +32,13 @@ items = sorted(counts[args.key].items(), key=lambda item: (item[1],item[0]), rev
 
 # Create the bar graph
 plt.bar([i for i in range(10)], [v for k, v in items[:10]])
+xLabel = "Language"
+if args.input_path == "reduced.country":
+    xLabel = "Country"
+plt.xlabel(xLabel)
+plt.ylabel("Number of Tweets")
+plt.title("Number of Tweets in 2020 with " + args.key + " by " + xLabel)
+plt.xticks([i for i in range(10)], [k for k, v in items[:10]])
 plt.savefig(args.input_path + args.key + ".png")
 # x-axis
 
