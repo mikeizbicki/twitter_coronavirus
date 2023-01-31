@@ -15,6 +15,7 @@ from collections import Counter,defaultdict
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+matplotlib.rcParams['font.family'] = ['Noto Sans CJK JP', 'sans-serif']
 
 # open the input path
 with open(args.input_path) as f:
