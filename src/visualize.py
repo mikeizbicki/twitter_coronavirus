@@ -36,7 +36,6 @@ top_10_items = items[-10:]
 
 # Create the bar graph
 x_arr = [i for i in range(len(top_10_items))]
-        
 plt.bar(x_arr, [v for k, v in top_10_items])
 xLabel = "Language"
 if args.input_path == "reduced.country":
