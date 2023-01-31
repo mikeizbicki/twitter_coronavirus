@@ -25,22 +25,24 @@ if args.percent:
     for k in counts[args.key]:
         counts[args.key][k] /= counts['_all'][k]
 
-# print the count values
-items = sorted(counts[args.key].items(), key=lambda item: (item[1],item[0]), reverse=True)
-# for k,v in items:
-    # print(k,':',v)
+# print the count values. Use commented out version if we want descending order.
+# items = sorted(counts[args.key].items(), key=lambda item: (item[1],item[0]), reverse=True)
+items = sorted(counts[args.key].items(), key=lambda item: (item[1],item[0]), reverse=False)
+
+
+# top 10
+# top_10_items = items[:10]
+top_10_items = items[-10:]
 
 # Create the bar graph
-plt.bar([i for i in range(10)], [v for k, v in items[:10]])
+x_arr = [i for i in range(len(top_10_items))]
+        
+plt.bar(x_arr, [v for k, v in top_10_items])
 xLabel = "Language"
 if args.input_path == "reduced.country":
     xLabel = "Country"
 plt.xlabel(xLabel)
 plt.ylabel("Number of Tweets")
 plt.title("Number of Tweets in 2020 with " + args.key + " by " + xLabel)
-plt.xticks([i for i in range(10)], [k for k, v in items[:10]])
-plt.savefig(args.input_path + args.key + ".png")
-# x-axis
-
-# y-axis
-
+plt.xticks(x_arr, [k for k, v in top_10_items])
+plt.savefig("./graphs/" + args.input_path + args.key + ".png")
