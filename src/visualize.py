@@ -15,7 +15,6 @@ from collections import Counter,defaultdict
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-matplotlib.rcParams['font.family'] = ['Noto Sans CJK JP', 'sans-serif']
 
 # open the input path
 with open(args.input_path) as f:
@@ -43,6 +42,9 @@ if args.input_path == "reduced.country":
     xLabel = "Country"
 plt.xlabel(xLabel)
 plt.ylabel("Number of Tweets")
-plt.title("Number of Tweets in 2020 with " + args.key + " by " + xLabel)
+lang = "English"
+if args.key != "#coronavirus":
+    lang = "Korean"
+plt.title("Number of tweets with coronavirus in " + lang + " by " + xLabel) 
 plt.xticks(x_arr, [k for k, v in top_10_items])
 plt.savefig("./graphs/" + args.input_path + args.key + ".png")
