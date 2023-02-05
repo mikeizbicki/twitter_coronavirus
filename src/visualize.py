@@ -14,15 +14,14 @@ import json
 from collections import Counter,defaultdict
 import matplotlib
 import matplotlib.font_manager
+
 # Use this so that we can create graphs without printing them somewhere immediately
 matplotlib.use('Agg')
-# matplotlib.rcParams['font.family'] = 'NotoSerif' #['Source Han Sans TW', 'sans-serif', 'Noto Serif KR']
 path = '/home/chom/.fonts/NotoSerifKR-Regular.otf'
-prop = matplotlib.font_manager.FontProperties(fname=path)
-#matplotlib.rcParams['font.family'] = prop.get_name()
 fp = matplotlib.font_manager.FontProperties(fname=path)
 
 import matplotlib.pyplot as plt
+
 # open the input path
 with open(args.input_path) as f:
     counts = json.load(f)
