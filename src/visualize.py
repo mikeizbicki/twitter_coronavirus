@@ -46,11 +46,11 @@ plt.bar(x_arr, [v for k, v in top_10_items])
 xLabel = "Language"
 if args.input_path == "reduced.country":
     xLabel = "Country"
-plt.xlabel(xLabel)
-plt.ylabel("Number of Tweets")
+plt.xlabel(xLabel, fontproperties=fp)
+plt.ylabel("Number of Tweets", fontproperties=fp)
 lang = "English"
 if args.key != "#coronavirus":
     lang = "Korean"
 plt.title("Number of tweets with " + args.key + " by " + xLabel, fontproperties=fp) 
-plt.xticks(x_arr, [k for k, v in top_10_items])
+plt.xticks(x_arr, [k for k, v in top_10_items], fontproperties=fp)
 plt.savefig("./graphs/" + args.input_path + args.key + ".png")
