@@ -10,6 +10,8 @@ You will scan all geotagged tweets sent in 2020 to monitor for the spread of the
 
 ## Background
 
+**About the Data:**
+
 Approximately 500 million tweets are sent everyday.
 Of those tweets, about 2% are *geotagged*.
 That is, the user's device includes location information about where the tweets were sent from.
@@ -26,12 +28,14 @@ Vim is able to open compressed zip files,
 and I encourage you to use vim to explore the dataset.
 For example, run the command
 ```
-$ vim /data-fast/twitter\ 2020/geoTwitter20-01-01.zip
+$ vim /data/Twitter\ dataset/geoTwitter20-01-01.zip
 ```
 Or you can get a "pretty printed" interface with a command like
 ```
-$ unzip -p /data-fast/twitter\ 2020/geoTwitter20-01-01.zip | head -n1 | python3 -m json.tool | vim -
+$ unzip -p /data/Twitter\ dataset/geoTwitter20-01-01.zip | head -n1 | python3 -m json.tool | vim -
 ```
+
+**About MapReduce:**
 
 You will follow the [MapReduce](https://en.wikipedia.org/wiki/MapReduce) procedure to analyze these tweets.
 MapReduce is a famous procedure for large scale parallel processing that is widely used in industry.
@@ -42,25 +46,32 @@ It is a 3 step procedure summarized in the following image:
 I have already done the partition step for you (by splitting up the tweets into one file per day).
 You will have to do the map and reduce steps.
 
-**Runtime:**
+**MapReduce Runtime:**
 
-The simplest and most common scenario is that the map procedure takes time O(n) and the reduce procedure takes time O(1).
-If you have p<<n processors, then the overall runtime will be O(n/p).
+Let $n$ be the size of the dataset and $p$ be the number of processors used to do the computation.
+The simplest and most common scenario is that the map procedure takes time $O(n)$ and the reduce procedure takes time $O(1)$.
+(These will be the runtimes of our map/reduce procedures.)
+In this case, the overall runtime is $O(n/p + \log p)$.
+In the typical case when $p$ is much smaller than $n$,
+then the runtime simplifies to $O(n/p)$.
 This means that:
 1. doubling the amount of data will cause the analysis to take twice as long;
 1. doubling the number of processors will cause the analysis to take half as long;
 1. if you want to add more data and keep the processing time the same, then you need to add a proportional number of processors.
 
-> **ASIDE:**
-> More complex runtimes are possible.
-> Merge sort over MapReduce is the classic example. 
-> Here, mapping is equivalent to sorting and so takes time O(n log n),
-> and reducing is a call to the `_reduce` function that takes time O(n).
-> But they are both rare in practice and require careful math to describe,
-> so we will ignore them.
-> In the merge sort example, it requires p=n processors just to reduce the runtime down to O(n)...
-> that's a lot of additional computing power for very little gain,
-> and so is impractical.
+More complex runtimes are possible.
+Merge sort over MapReduce is the classic example. 
+Here, mapping is equivalent to sorting and so takes time $O(n \log n)$,
+and reducing is a call to the `_merge` function that takes time $O(n)$.
+But they are both rare in practice and require careful math to describe,
+so we will ignore them.
+In the merge sort example, it requires $p=n$ processors just to reduce the runtime down to $O(n)$...
+that's a lot of additional computing power for very little gain,
+and so is impractical.
+
+It is currently not known which algorithms can be parallelized with MapReduce and which algorithms cannot be parallelized this way.
+Most computer scientists believe there are some algorithms which cannot be parallelized,
+but we don't yet have a proof that this is the case.
 
 ## Background Tasks
 
@@ -80,6 +91,12 @@ $ ./src/map.py --input_path=/data/Twitter\ dataset/geoTwitter20-02-16.zip
 This command will take a few minutes to run as it is processing all of the tweets within the zip file.
 After the command finishes, you will now have a folder `outputs` that contains a file `/geoTwitter20-02-16.zip.lang`.
 This is a file that contains JSON formatted information summarizing the tweets from 16 February.
+
+> **NOTE:**
+> In previous labs, we combined the `unzip`, `grep`, and `jq` commands to analyze a single day of tweets.
+> These terminal commands are great for doing simple analysis,
+> but as the analysis becomes more complicated,
+> it becomes easier to switch to python instead of the shell.
 
 **Task 1b: Visualize**
 
