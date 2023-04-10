@@ -1,4 +1,4 @@
-# Coronavirus tweets
+# Coronavirus twitter analysis
 
 You will scan all geotagged tweets sent in 2020 to monitor for the spread of the coronavirus on social media.
 
@@ -24,14 +24,43 @@ JSON is a popular format for storing data that is closely related to python dict
 
 Vim is able to open compressed zip files,
 and I encourage you to use vim to explore the dataset.
+For example, run the command
+```
+$ vim /data-fast/twitter\ 2020/geoTwitter20-01-01.zip
+```
+Or you can get a "pretty printed" interface with a command like
+```
+$ unzip -p /data-fast/twitter\ 2020/geoTwitter20-01-01.zip | head -n1 | python3 -m json.tool | vim -
+```
 
-You will follow the MapReduce procedure to analyze these tweets.
-This is a 3 step procedure summarized in the following image:
+You will follow the [MapReduce](https://en.wikipedia.org/wiki/MapReduce) procedure to analyze these tweets.
+MapReduce is a famous procedure for large scale parallel processing that is widely used in industry.
+It is a 3 step procedure summarized in the following image:
 
 <img src=mapreduce.png width=100% />
 
 I have already done the partition step for you (by splitting up the tweets into one file per day).
 You will have to do the map and reduce steps.
+
+**Runtime:**
+
+The simplest and most common scenario is that the map procedure takes time O(n) and the reduce procedure takes time O(1).
+If you have p<<n processors, then the overall runtime will be O(n/p).
+This means that:
+1. doubling the amount of data will cause the analysis to take twice as long;
+1. doubling the number of processors will cause the analysis to take half as long;
+1. if you want to add more data and keep the processing time the same, then you need to add a proportional number of processors.
+
+> **ASIDE:**
+> More complex runtimes are possible.
+> Merge sort over MapReduce is the classic example. 
+> Here, mapping is equivalent to sorting and so takes time O(n log n),
+> and reducing is a call to the `_reduce` function that takes time O(n).
+> But they are both rare in practice and require careful math to describe,
+> so we will ignore them.
+> In the merge sort example, it requires p=n processors just to reduce the runtime down to O(n)...
+> that's a lot of additional computing power for very little gain,
+> and so is impractical.
 
 ## Background Tasks
 
@@ -181,4 +210,3 @@ There's two reasons:
     In general, writing test cases for large data analysis tasks is tricky and rarely done.
     Writing correct code without test cases is hard,
     and so many (most?) analysis of large datasets contain lots of bugs.
-    
