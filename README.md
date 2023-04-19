@@ -111,8 +111,8 @@ Now manually inspect the output of the `.lang` file using vim:
 $ vim outputs/geoTwitter20-02-16.zip.lang
 ```
 You should see that the file contains a dictionary of dictionaries.
-The outermost dictionary has languages as the keys, 
-and the innermost dictionary has hashtags as the keys.
+The outermost dictionary has hashtags as the keys,
+and the innermost dictionary has languages as the keys.
 The `visualize.py` file simply provides a nicer visualization of these dictionaries.
 
 **Task 2: Reduce**
