@@ -41,7 +41,7 @@ You will follow the [MapReduce](https://en.wikipedia.org/wiki/MapReduce) procedu
 MapReduce is a famous procedure for large scale parallel processing that is widely used in industry.
 It is a 3 step procedure summarized in the following image:
 
-<img src=mapreduce.png width=100% />
+<img src=img/mapreduce.png width=100% />
 
 I have already done the partition step for you (by splitting up the tweets into one file per day).
 You will have to do the map and reduce steps.
