@@ -100,10 +100,23 @@ After creating the `map.py` file above,
 adjust it so that for each hashtag in the `./hashtags` file,
 it tracks how many tweets were sent in each language.
 
+> **NOTE:**
+> We didn't completely finish writing our `map.py` file in class.
+> A completed version is already in the git history of this repo, however,
+> and so it is in the `.git` folder of your cloned project.
+> You can checkout the file from the history and copy it into your working directory with the incantation
+> ```
+> $ git checkout bf76137 -- src/map.py
+> ```
+
 **Task 2: Reduce**
 
 Now write a python file `./src/reduce.py` that takes as input the outputs from the `map.py` file above and reduces them together.
 This file should do an element-wise addition of all the counts.
+
+> **NOTE:**
+> To get access to the reduce file, modify the git command in the previous note.
+> The file is located in the same commit.
 
 ## Main Tasks
 
