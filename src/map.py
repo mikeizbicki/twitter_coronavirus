@@ -61,7 +61,7 @@ with zipfile.ZipFile(args.input_path) as archive:
                 text = tweet['text'].lower()
                 
                 # Extract country code safely
-                country = tweet.get('place', {}).get('country_code', 'unknown')
+                country = tweet['place']['country_code'] if tweet.get('place') else 'unknown'
                
                # search hashtags
                 for hashtag in hashtags:
