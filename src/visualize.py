@@ -19,13 +19,17 @@ with open(args.input_path) as f:
 
 # Normalize counts if requested
 if args.percent:
-    for k in counts[args.key]:
+    for k in counts.get(args.key, {}):  # Using .get() to avoid KeyError
         counts[args.key][k] /= counts['_all'][k]
 
 # Get the items sorted by value (top 10), then re-sort in ascending order for the graph
-items = sorted(counts[args.key].items(), key=lambda item: item[1], reverse=True)
+items = sorted(counts.get(args.key, {}).items(), key=lambda item: item[1], reverse=True)
 top_10 = items[:10]
 top_10 = sorted(top_10, key=lambda item: item[1])
+
+if not top_10:
+    print(f"No data found for key: {args.key}")
+    exit()
 
 keys = [k for k, v in top_10]
 values = [v for k, v in top_10]
