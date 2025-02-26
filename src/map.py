@@ -44,8 +44,6 @@ with zipfile.ZipFile(args.input_path) as archive:
 
     # loop over every file within the zip file
     for i,filename in enumerate(archive.namelist()):
-        if i >= 10: #stop after 10
-            break
         print(datetime.datetime.now(),args.input_path,filename)
 
         # open the inner file
