@@ -10,7 +10,7 @@ mkdir -p "$OUTPUT_JSON_DIR"
 mkdir -p "$OUTPUT_LOG_DIR"
 
 # Loop over all files from 2020 in the dataset and run map.py in parallel
-for file in "$INPUT_DIR"/geoTwitter20-*.zip; do
+for file in '/data/Twitter dataset/'geoTwitter20-*-*.zip; do
     echo "Processing $file..."
 
     # Extract filename without path
