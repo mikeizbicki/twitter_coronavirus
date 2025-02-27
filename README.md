@@ -10,15 +10,16 @@ This project analyzes geotagged tweets sent in 2020 to monitor the spread of the
 ### Visualizations
 
 #### **Top Countries by Hashtag Usage**
-<img src=graphs/all.country%23coronavirus.png width=100% />
-<img src=graphs/all.country%23코로나바이러스.png width=100% />
+<img src=graphs/plot_all_country__coronavirus.png width=100% />
+<img src=graphs/plot_all_country__코로나바이러스.png width=100% />
 
 #### **Top Languages by Hashtag Usage**
-<img src=graphs/all.lang%23coronavirus.png width=100% />
-<img src=graphs/all.lang%23코로나바이러스.png width=100% />
+<img src=graphs/plot_all_lang__coronavirus.png width=100% />
+<img src=graphs/plot_all_lang__코로나바이러스.png width=100% />
 
 #### **Hashtag Trends Over Time**
-<img src=graphs/hashtag_trend.png width=100% />
+<img src=graphs/trend_plot.png width=100% />
 
 ## Conclusion
 This project demonstrates the power of parallel computing in processing massive social media datasets. By leveraging MapReduce, Python scripting, and visualization techniques, we can uncover insights about how COVID-19-related discussions evolved across languages and countries throughout 2020.
+
