@@ -72,7 +72,7 @@ and so is impractical.
 It is currently not known which algorithms can be parallelized with MapReduce and which algorithms cannot be parallelized this way.
 Most computer scientists believe there are some algorithms which cannot be parallelized,
 but we don't yet have a proof that this is the case.
-In theoretical computer science, this problem is called the [$NC\stackrel{?}{=}P$ problem](https://en.wikipedia.org/wiki/NC_(complexity)),
+In theoretical computer science, this problem is called the $P\stackrel{?}{=}NC$ problem,
 and is closely related to the more famous $P\stackrel{?}{=}NP$ problem.
 
 ## Background Tasks
