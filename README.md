@@ -15,8 +15,8 @@ You will scan all geotagged tweets sent in 2020 to monitor for the spread of the
 Approximately 500 million tweets are sent everyday.
 Of those tweets, about 2% are *geotagged*.
 That is, the user's device includes location information about where the tweets were sent from.
-The lambda server's `/data/Twitter dataset` folder contains all geotagged tweets that were sent in 2020.
-In total, there are about 1.1 billion tweets in this dataset.
+The lambda server's `/data/Twitter dataset` folder contains all geotagged tweets that were sent between 2017 - 2023.
+You will analyze all tweets sent in 2020, which is about 1.1 billion tweets.
 
 The tweets are stored as follows.
 The tweets for each day are stored in a zip file `geoTwitterYY-MM-DD.zip`,
