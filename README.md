@@ -192,7 +192,7 @@ and output a line plot where:
 1. The x-axis is the day of the year.
 1. The y-axis is the number of tweets that use that hashtag during the year.
 
-Your `alternative_reduce.py` file have to follow a similar structure to a combined version of the `reduce.py` and `visualize.py` files.
+Your `alternative_reduce.py` file has to follow a similar structure to a combined version of the `reduce.py` and `visualize.py` files.
 First, you will scan through all of the data in the `outputs` folder created by the mapping step.
 In this scan, you will construct a dataset that contains the information that you need to plot.
 Then, after you have extracted this information,
@@ -214,7 +214,7 @@ You must:
 
 ## Submission
 
-Upload a link to you github repository on sakai.
+Upload a link to you github repository on Canvas.
 I will look at your code and visualization to determine your grade.
 
 **Grading:**
