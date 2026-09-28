@@ -208,7 +208,7 @@ you should call the appropriate matplotlib functions to plot the data.
 Commit all of your code and images output files to your github repo and push the results to github.
 You must:
 1. Delete the current contents of the `README.md` file
-1. Insert into the `README.md` file a brief explanation of your project, including the 4 generated png files.
+1. Insert into the `README.md` file a brief explanation of your project, including the 5 generated png files.
     This explanation should be suitable for a future employer to look at while they are interviewing you to get a rough idea of what you accomplished.
     (And you should tell them about this in your interviews!)
 
@@ -224,7 +224,7 @@ The assignment is worth 32 points:
 1. 8 points for getting the map/reduce to work
 1. 8 points for your repo/readme file
 1. 8 points for Task 3 plots
-1. 8 points for Task 4 plots
+1. 8 points for Task 4 plot
 
 The most common ways to miss points are:
 1. having incorrect data plotted (because the map program didn't finish running on all of the inputs)
