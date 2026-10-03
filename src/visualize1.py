@@ -2,7 +2,7 @@
 """Top-N bar charts for reduced hashtag/geo counts.
 
 Handles both {"all": ...} (lang.json) and {"_all": ...} (country.json)
-baselines, CJK hashtags (#코로나바이러스, #コロナウイルス), and --percent.
+baselines and CJK hashtags (#코로나바이러스, #コロナウイルス).
 """
 import argparse, hashlib, json, os, re, sys, unicodedata
 import matplotlib
@@ -29,45 +29,35 @@ def slug(s):
                .encode('ascii', 'ignore').decode()).strip('_')
     return a[:40] or 'h_' + hashlib.sha1(s.encode()).hexdigest()[:8]
 
-def baseline(counts):
-    for k in ('_all', 'all'):
-        if isinstance(counts.get(k), dict):
-            return counts[k]
-    raise SystemExit('no "_all"/"all" baseline in input')
+DIM = {'lang': 'language', 'country': 'country', 'hashtag': 'hashtag', 'geo': 'geo'}
 
-def top_items(counts, key, top, percent, base):
+def dimension(input_path):
+    stem = os.path.splitext(os.path.basename(input_path))[0].lower()
+    for k, v in DIM.items():
+        if k in stem:
+            return v
+    return 'key'
+
+def top_items(counts, key, top=10):
     block = counts.get(key)
     if not isinstance(block, dict):
         print(f'warn: key {key!r} absent', file=sys.stderr)
         return []
-    rows = []
-    for k, v in block.items():
-        v = float(v)
-        if percent:
-            d = base.get(k)
-            if not d:
-                print(f'warn: {key}: no baseline for {k!r}, skipped', file=sys.stderr)
-                continue
-            v /= float(d)
-        rows.append((v, k))
-    rows.sort(reverse=True)          # rank on the *plotted* quantity
-    return sorted(rows[:top])        # low->high for display
+    rows = sorted(((float(v), k) for k, v in block.items()), reverse=True)
+    return sorted(rows[:top])          # low->high for display
 
-def render(key, rows, percent, log, outdir, top):
+def render(key, rows, outdir, top, dim):
     labels, vals = [k for _, k in rows], [v for v, _ in rows]
     fig, ax = plt.subplots(figsize=(12, 6))
     ax.bar(range(len(vals)), vals, color='#3b6ea5')
-    if log:
-        ax.set_yscale('log')
     ax.set_xticks(range(len(labels)))
     ax.set_xticklabels(labels, rotation=45, ha='right')
-    ax.set_ylabel('share of _all' if percent else 'count')
-    ax.set_title(f'Top {top} keys for {key}')
+    ax.set_ylabel(f'tweet count ({dim})')
+    ax.set_title(f'Top {top} tweets by {dim} for {key}')
     for i, v in enumerate(vals):
-        ax.text(i, v, f'{v:.3%}' if percent else f'{v:,.0f}',
-                ha='center', va='bottom', fontsize=8)
+        ax.text(i, v, f'{v:,.0f}', ha='center', va='bottom', fontsize=8)
     fig.tight_layout()
-    path = os.path.join(outdir, f'{slug(key)}_bar_graph.png')
+    path = os.path.join(outdir, f'{slug(key)}_{dim}_bar_graph.png')
     fig.savefig(path, dpi=140)
     plt.close(fig)
     print(f'Saved to {path}')
@@ -77,21 +67,18 @@ def main():
     p.add_argument('--input_path', required=True)
     p.add_argument('--key', action='append',
                    help=f'repeatable; default {DEFAULT_KEYS}')
-    p.add_argument('--percent', action='store_true')
-    p.add_argument('--log', action='store_true')
-    p.add_argument('--top', type=int, default=10)
-    p.add_argument('--outdir', default='.')
     args = p.parse_args()
 
+    top, outdir = 10, '.'
+    dim = dimension(args.input_path)
     with open(args.input_path, encoding='utf-8') as f:
         counts = json.load(f)
     setup_fonts()
-    os.makedirs(args.outdir, exist_ok=True)
-    base = baseline(counts) if args.percent else {}
+    os.makedirs(outdir, exist_ok=True)
     for key in (args.key or DEFAULT_KEYS):
-        rows = top_items(counts, key, args.top, args.percent, base)
+        rows = top_items(counts, key, top)
         if rows:
-            render(key, rows, args.percent, args.log, args.outdir, args.top)
+            render(key, rows, outdir, top, dim)
 
 if __name__ == '__main__':
     main()
