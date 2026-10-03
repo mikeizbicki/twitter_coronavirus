@@ -9,9 +9,11 @@ parser.add_argument('--key', required=True)
 parser.add_argument('--percent', action='store_true')
 args = parser.parse_args()
 
-# input_path may be a glob pattern
 files = glob.glob(args.input_path)
 assert files, f"No files match {args.input_path}"
+
+out_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+os.makedirs(out_dir, exist_ok=True)
 
 for fpath in files:
     with open(fpath) as f:
@@ -21,7 +23,6 @@ for fpath in files:
         for k in counts[args.key]:
             counts[args.key][k] /= counts['_all'][k]
 
-    # Top 10 by value, sorted low->high for display
     top10 = sorted(sorted(counts[args.key].items(), key=lambda x: x[1], reverse=True)[:10],
                    key=lambda x: x[1])
 
@@ -34,8 +35,7 @@ for fpath in files:
     plt.ylabel('Value')
     plt.title(f'Top 10 Keys for {args.key}')
     plt.tight_layout()
-    out = os.path.join(os.path.dirname(fpath) or '.', f'{os.path.basename(fpath).replace(".json","")}_{args.key}_bar.png')
+    out = os.path.join(out_dir, f'{os.path.basename(fpath).replace(".json", "")}_{args.key}_bar.png')
     plt.savefig(out)
     plt.close()
     print(f'Saved to {out}')
-
