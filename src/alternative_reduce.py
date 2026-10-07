@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--hashtags', nargs='+', required=True, help='Hashtags to plot')
-parser.add_argument('--output_file', default='hashtag_timeline.png', help='Output PNG')
+parser.add_argument('--output_file', default='hashtag_lineplot.png', help='Output PNG')
 args = parser.parse_args()
 
 data = defaultdict(lambda: defaultdict(int))
