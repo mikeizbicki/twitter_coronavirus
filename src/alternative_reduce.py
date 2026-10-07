@@ -5,7 +5,8 @@ from datetime import datetime
 import matplotlib
 matplotlib.use('Agg')  # CRITICAL: prevents interactive backend issues
 import matplotlib.pyplot as plt
-
+import matplotlib.dates as mdates  # ADDED: For date-formatted x-axis ticks
+ 
 parser = argparse.ArgumentParser()
 parser.add_argument('--hashtags', nargs='+', required=True, help='Hashtags to plot')
 parser.add_argument('--output_file', default='hashtag_lineplot.png', help='Output PNG')
@@ -20,14 +21,15 @@ for fp in files:
     try:
         d = fn.split('geoTwitter')[1].split('.zip')[0]
         year = 2000 + int(d.split('-')[0])
-        doy = datetime(year, int(d.split('-')[1]), int(d.split('-')[2])).timetuple().tm_yday
+        # ADDED: Store actual datetime objects instead of day-of-year integers
+        dt = datetime(year, int(d.split('-')[1]), int(d.split('-')[2]))
     except Exception:
-        print(f"skip {fn}"); continue
+         print(f"skip {fn}"); continue
 
     with open(fp) as f: counts = json.load(f)
     for ht in args.hashtags:
         if ht in counts:
-            data[ht][doy] = sum(counts[ht].values())
+            data[ht][dt] = sum(counts[ht].values())  # Storing datetime key
 
 fig, ax = plt.subplots(figsize=(14,8))
 for ht in args.hashtags:
@@ -35,12 +37,15 @@ for ht in args.hashtags:
         days = sorted(data[ht])
         ax.plot(days, [data[ht][d] for d in days], marker='o', ms=2, label=ht, lw=1.5)
     else:
-        print(f"No data: {ht}")
+         print(f"No data: {ht}")
 
-ax.set_xlabel('Day of Year (2020)', fontsize=12)
+# ADDED: Format X-axis to display month names (e.g., 'Jan', 'Feb')
+ax.xaxis.set_major_locator(mdates.MonthLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+
+ax.set_xlabel('Date (2020)', fontsize=12)
 ax.set_ylabel('Tweets', fontsize=12)
 ax.set_title('Hashtag Usage Over Time in 2020', fontsize=14, fontweight='bold')
 ax.legend(loc='best'); ax.grid(alpha=.3); fig.tight_layout()
 fig.savefig(args.output_file, dpi=150)
 print(f"Saved {args.output_file}")
-
