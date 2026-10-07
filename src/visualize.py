@@ -3,7 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-# Try CJK fonts for Korean support
+# Try CJK fonts for Korean support (qwen created function)
 def setup_cjk_font():
     from matplotlib import font_manager
     cjk_fonts = ['Noto Sans CJK KR', 'Noto Sans CJK', 'WenQuanYi Zen Hei',
@@ -21,7 +21,6 @@ def setup_cjk_font():
 parser = argparse.ArgumentParser()
 parser.add_argument('--input_path', required=True)
 parser.add_argument('--key', required=True)
-parser.add_argument('--percent', action='store_true')
 args = parser.parse_args()
 
 files = glob.glob(args.input_path)
@@ -60,7 +59,7 @@ for fpath in files:
     plt.figure(figsize=(12, 6))
     plt.bar(range(len(cols)), vals)
     plt.xticks(range(len(cols)), cols, rotation=45, ha='right')
-    plt.ylabel(f'{"Percentage" if args.percent else "Count"}')
+    plt.ylabel(f'Count')
     plt.title(f'Top 10 {entity}{title_suffix}')
     plt.tight_layout()
     out = os.path.join(out_dir, f'{os.path.splitext(base)[0]}_{re.sub(r"\\W", "_", args.key)}_bar.png')

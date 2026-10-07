@@ -1,70 +1,46 @@
-import argparse, datetime, json, os, re, sys
+#!/usr/bin/env python3
+import argparse, os, json, glob
+from collections import defaultdict
+from datetime import datetime
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use('Agg')  # CRITICAL: prevents interactive backend issues
 import matplotlib.pyplot as plt
-from matplotlib import font_manager
 
-CJK = ('Noto Sans CJK', 'Noto Sans JP', 'Noto Sans KR', 'Source Han',
-       'WenQuanYi', 'Droid Sans Fallback', 'IPAexGothic', 'Hiragino',
-       'AppleGothic', 'Meiryo', 'Yu Gothic', 'MS Gothic')
+parser = argparse.ArgumentParser()
+parser.add_argument('--hashtags', nargs='+', required=True, help='Hashtags to plot')
+parser.add_argument('--output_file', default='hashtag_timeline.png', help='Output PNG')
+args = parser.parse_args()
 
-def setup_fonts():
-    plt.rcParams['axes.unicode_minus'] = False
-    have = sorted({f.name for f in font_manager.fontManager.ttflist})
-    fam = next((h for w in CJK for h in have if w.lower() in h.lower()), None)
-    if fam:
-        plt.rcParams['font.sans-serif'] = [fam, 'DejaVu Sans']
+data = defaultdict(lambda: defaultdict(int))
+files = sorted(glob.glob('outputs/*.lang'))
+print(f"Processing {len(files)} files...")
 
-def day_of_year(name):
-    m = re.search(r'(\d{4})-(\d{2})-(\d{2})', name)
-    if not m:
-        return None
-    return datetime.date(*map(int, m.groups())).timetuple().tm_yday
+for fp in files:
+    fn = os.path.basename(fp)
+    try:
+        d = fn.split('geoTwitter')[1].split('.zip')[0]
+        year = 2000 + int(d.split('-')[0])
+        doy = datetime(year, int(d.split('-')[1]), int(d.split('-')[2])).timetuple().tm_yday
+    except Exception:
+        print(f"skip {fn}"); continue
 
-def count_for(data, key):
-    """Sum counts for `key`, tolerating {v: n}, a bare number, or absence."""
-    block = data.get(key)
-    if isinstance(block, dict):
-        return sum(float(v) for v in block.values())
-    if isinstance(block, (int, float)):
-        return float(block)
-    return 0.0
+    with open(fp) as f: counts = json.load(f)
+    for ht in args.hashtags:
+        if ht in counts:
+            data[ht][doy] = sum(counts[ht].values())
 
-def main():
-    p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--hashtags', nargs='+', required=True)
-    p.add_argument('--input_dir', default='outputs')
-    p.add_argument('--output_path', default='alternative_reduce.png')
-    args = p.parse_args()
+fig, ax = plt.subplots(figsize=(14,8))
+for ht in args.hashtags:
+    if ht in data:
+        days = sorted(data[ht])
+        ax.plot(days, [data[ht][d] for d in days], marker='o', ms=2, label=ht, lw=1.5)
+    else:
+        print(f"No data: {ht}")
 
-    files = sorted(f for f in os.listdir(args.input_dir) if f.endswith('.json'))
-    series = {h: [0.0] * 366 for h in args.hashtags}
-
-    for i, name in enumerate(files):
-        doy = day_of_year(name) or i + 1
-        if not 1 <= doy <= 366:
-            continue
-        with open(os.path.join(args.input_dir, name), encoding='utf-8') as f:
-            data = json.load(f)
-        for h in args.hashtags:
-            series[h][doy - 1] += count_for(data, h)
-
-    setup_fonts()
-    fig, ax = plt.subplots(figsize=(12, 6))
-    xs = list(range(1, 367))
-    for h in args.hashtags:
-        if not any(series[h]):
-            print(f'warn: no data for {h!r}', file=sys.stderr)
-        ax.plot(xs, series[h], linewidth=1.2, label=h)
-    ax.set_xlabel('day of year')
-    ax.set_ylabel('tweet count')
-    ax.set_title('Daily tweet counts by hashtag')
-    ax.legend()
-    fig.tight_layout()
-    fig.savefig(args.output_path, dpi=140)
-    plt.close(fig)
-    print(f'Saved to {args.output_path}')
-
-if __name__ == '__main__':
-    main()
+ax.set_xlabel('Day of Year (2020)', fontsize=12)
+ax.set_ylabel('Tweets', fontsize=12)
+ax.set_title('Hashtag Usage Over Time in 2020', fontsize=14, fontweight='bold')
+ax.legend(loc='best'); ax.grid(alpha=.3); fig.tight_layout()
+fig.savefig(args.output_file, dpi=150)
+print(f"Saved {args.output_file}")
 
