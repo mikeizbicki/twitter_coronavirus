@@ -9,18 +9,31 @@ This project tracks hashtag usage patterns across languages and countries using 
 3. **Visualization**: Generate top-10 bar charts per hashtag, plus temporal line plots for alternative trend analysis.
 
 ## Results
+**Top 10 Language breakdown** (coronavirus):
+![lang coronavirus](lang_coronavirus_bar.png)
 
-**Top 10 Language breakdown** (`#coronavirus`):
-![lang coronavirus](./"lang_#coronavirus_bar.png")
+**Top 10 Country breakdown** (coronavirus):
+![country coronavirus](country_coronavirus_bar.png)
 
-**Top 10 Country breakdown** (`#coronavirus`):
-![country coronavirus]("./country_#coronavirus_bar.png")
+**Top 10 Language breakdown** (코로나바이러스):
+![lang coronavirus_kr](lang_코로나바이러스_bar.png)
 
-**Top 10 Language breakdown** (`#코로나바이러스`):
-![lang coronavirus_kr]("./lang_#코로나바이러스_bar.png")
-
-**Top 10 Country breakdown** (`#코로나바이러스`):
-![country coronavirus_kr]("./country_#코로나바이러스_bar.png")
+**Top 10 Country breakdown** (코로나바이러스):
+![country coronavirus_kr](country_코로나바이러스_bar.png)
 
 **Temporal comparison of hashtag mentions across the year**:
-![timeline trends](./hashtag_lineplot.png)
+![timeline trends](hashtag_lineplot.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
