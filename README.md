@@ -245,6 +245,9 @@ The most common ways to miss points are:
 1. having incorrect data plotted (because the map program didn't finish running on all of the inputs)
 1. having illegible plots that are not "reasonably" formatted
 
+    > **NOTE:**
+    > Some common examples of "unreasonable" formatting include: no axis labels; incorrect axis labels (e.g. using numbers to represent days of the year like 32 for February 1st); text that overlaps other text.
+
 Notice that we are not using CI to grade this assignment.
 There's two reasons:
 
