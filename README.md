@@ -72,8 +72,19 @@ and so is impractical.
 It is currently not known which algorithms can be parallelized with MapReduce and which algorithms cannot be parallelized this way.
 Most computer scientists believe there are some algorithms which cannot be parallelized,
 but we don't yet have a proof that this is the case.
-In theoretical computer science, this problem is called the $P\stackrel{?}{=}NC$ problem,
-and is closely related to the more famous $P\stackrel{?}{=}NP$ problem.
+In theoretical computer science, this problem is called the $P\stackrel{?}{=}NC$ [problem](https://en.wikipedia.org/wiki/NC_(complexity)),
+and is closely related to the more famous $P\stackrel{?}{=}NP$ [problem](https://en.wikipedia.org/wiki/NP_(complexity)).
+
+> **FUN FACT:**
+> NC stands for *Nick's class*.
+> Here, class is a formal name for a set-like structure involved with very large values of infinity,
+> and Nick stands for former HMC professor [Nick Pippenger](https://www.hmc.edu/mathematics/faculty-staff/nicholas-pippenger/).
+
+> **REQUIRED BACKGROUND:**
+> Before starting this assignment, you must watch the hackerdashery video on [P vs. NP and the Computational Complexity Zoo](https://www.youtube.com/watch?v=YX40hbAHx3s).
+> Recall that in computer science, programming has always been considered *trivial* in the same way that arithmetic is trivial to mathematicians.
+> CS is actually the mathematical study of what programs can do in principle.
+> Understanding these principles also turns out to help us write much better programs.
 
 ## Background Tasks
 
@@ -100,6 +111,7 @@ After creating the `map.py` file above,
 adjust it so that for each hashtag in the `./hashtags` file,
 it tracks how many tweets were sent in each language.
 
+<!--
 > **NOTE:**
 > We didn't completely finish writing our `map.py` file in class.
 > A completed version is already in the git history of this repo, however,
@@ -108,15 +120,18 @@ it tracks how many tweets were sent in each language.
 > ```
 > $ git checkout bf76137 -- src/map.py
 > ```
+-->
 
 **Task 2: Reduce**
 
 Now write a python file `./src/reduce.py` that takes as input the outputs from the `map.py` file above and reduces them together.
 This file should do an element-wise addition of all the counts.
 
+<!--
 > **NOTE:**
 > To get access to the reduce file, modify the git command in the previous note.
 > The file is located in the same commit.
+-->
 
 ## Main Tasks
 
